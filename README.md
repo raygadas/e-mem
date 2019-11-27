@@ -1,5 +1,7 @@
 # UI of an experience management system made for people with autism
 
+![alt text](./screenshots/app.png)
+
 ## How to use
 
 ### Run the dev version
