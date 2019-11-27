@@ -10,13 +10,19 @@ Execute [`npm run dev`] with [npm](https://nodejs.org/) installed. For example:
 npm run dev
 ```
 
-### Compile a production build
+### Run the build version
 **Note: the current version was not deployed to production**
 
-Execute [`npm run build`] with [npm](https://nodejs.org/) installed. For example:
+To create the production build, execute [`npm run build`] with [npm](https://nodejs.org/) installed. For example:
 
 ```bash
 npm run build
+```
+
+Then start the build with [`npm run start`]. For example:
+
+```bash
+npm start
 ```
 
 ## Dependencies
