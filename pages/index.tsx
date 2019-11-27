@@ -7,7 +7,6 @@ import withAuthorization from "./withAuthorization";
 import FirebaseService from 'services/firebase';
 import Router, { useRouter } from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { subjects } from 'utils/sample-data';
 
 type Props = {
     data: Array<any>
@@ -68,7 +67,7 @@ const Tabs: React.FunctionComponent<TabsProps> = ({ data, selected }): any => {
                         )
                     })}
                 </div>
-                <div class="py-4 text-blue-500 text-lg px-2 bg-white rounded shadow-md -mt-2 mx-2">
+                <div className="py-4 text-blue-500 text-lg px-2 bg-white rounded shadow-md -mt-2 mx-2">
                     {description}
                 </div>
             </div>
@@ -107,7 +106,7 @@ const HomePage: NextPage<HomePage, {}> = ({ firebase, user }) => {
             let subject_collection = await db.collection('subject').get();
 
             let getSubjects = async () => {
-                let subjects = {}
+                let subjects : {[id: string]: any}= {}
                 await Promise.all(subject_collection.docs.map(async (subject) => {
                     let data = subject.data()
                     let id = subject.id;

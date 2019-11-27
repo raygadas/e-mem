@@ -36,7 +36,7 @@ class FirebaseService {
     }
   }
 
-  public doSignInWithEmailAndPassword = (email: string, password: string): Promise<firebase.auth.UserCredential> => {
+  public doSignInWithEmailAndPassword = (email: string, password: string): Promise<firebase.auth.UserCredential> | undefined => {
     if (this.auth) {
       return this.auth.signInWithEmailAndPassword(email, password);
     } else {

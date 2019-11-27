@@ -1,45 +1,28 @@
-# Custom server with TypeScript + Nodemon example
+# UI of an experience management system made for people with autism
 
 ## How to use
 
-### Using `create-next-app`
+### Run the dev version
 
-Execute [`create-next-app`](https://github.com/zeit/next.js/tree/canary/packages/create-next-app) with [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) or [npx](https://github.com/zkat/npx#readme) to bootstrap the example:
-
-```bash
-npx create-next-app --example custom-server-typescript custom-server-typescript-app
-# or
-yarn create next-app --example custom-server-typescript custom-server-typescript-app
-```
-
-### Download manually
-
-Download the example:
+Execute [`npm run dev`] with [npm](https://nodejs.org/) installed. For example:
 
 ```bash
-curl https://codeload.github.com/zeit/next.js/tar.gz/canary | tar -xz --strip=2 next.js-canary/examples/custom-server-typescript
-cd custom-server-typescript
-```
-
-Install it and run:
-
-```bash
-npm install
 npm run dev
-# or
-yarn
-yarn dev
 ```
 
-Deploy it to the cloud with [now](https://zeit.co/now) ([download](https://zeit.co/download))
+### Compile a production build
+**Note: the current version was not deployed to production**
+
+Execute [`npm run build`] with [npm](https://nodejs.org/) installed. For example:
 
 ```bash
-now
+npm run build
 ```
 
-## The idea behind the example
+## Dependencies
 
-The example shows how you can use [TypeScript](https://typescriptlang.com) on both the server and the client while using [Nodemon](https://nodemon.io/) to live reload the server code without affecting the Next.js universal code.
+This version was build using:
 
-Server entry point is `server/index.ts` in development and `dist/index.js` in production.
-The second directory should be added to `.gitignore`.
+- [Next JS](https://nextjs.org/docs)
+- [TailwindCss](https://tailwindcss.com/)
+- [Firestore](https://firebase.google.com/docs/firestore/?hl=es-419)

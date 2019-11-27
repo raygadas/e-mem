@@ -8,7 +8,6 @@ import FirebaseService from 'services/firebase';
 import { useEffect, useState } from 'react'
 import Link from 'next/link';
 import { formatDate } from '../utils';
-import FriendshipImg from '../public/images/friendship.jsx';
 type CardProps = {
   experience: any
 }
@@ -42,12 +41,6 @@ const Tags: React.FunctionComponent<any> = ({ experience }) => {
 }
 
 const Card: React.FunctionComponent<CardProps> = ({ experience }) => {
-  const date_options = {
-    year: "numeric",
-    month: "long",
-    day: "numeric"
-  }
-  let date = new Date(experience.date.toDate());
   return (
     <Link href={{ pathname: '/entry', query: { id: experience.id } }} as={`/entry/${experience.id}`} key={experience.id}>
       <a>
@@ -68,7 +61,6 @@ const Card: React.FunctionComponent<CardProps> = ({ experience }) => {
             <div className="ml-4 flex-grow flex items-center flex-wrap">
               <div className="mb-2">
                 <p className="text-gray-500 text-sm">{formatDate(experience.date)}</p>
-                {/* <h1 className="text-gray-600 text-lg">Experience: <span className="italic text-gray-700">{experience.name}</span></h1> */}
                 <h1 className="text-gray-600 text-lg">{experience.name}</h1>
               </div>
               <div className="flex flex-wrap">
@@ -86,7 +78,7 @@ const Card: React.FunctionComponent<CardProps> = ({ experience }) => {
 };
 
 type TypesProps = {
-  types: Array<Object>,
+  types: Array<any>,
   selected: string,
   setSelected: any
 }
@@ -128,7 +120,7 @@ const Category: NextPage<CategoryProps, {}> = ({ firebase, user }) => {
   const [category, setCategory] = useState(Object)
   const [subject, setSubject] = useState(Object)
   const [experiences, setExperiences] = useState(Array);
-  const [types, setTypes] = useState([{ name: 'All', id: 'all' }]);
+  const [types, setTypes] = useState(Array);
   const [selectedType, setSelectedType] = useState('all');
   const { db } = firebase;
 
@@ -147,9 +139,7 @@ const Category: NextPage<CategoryProps, {}> = ({ firebase, user }) => {
     }
 
     fetchCategoryInfo();
-    if (query.type) {
-      setSelectedType(query.type)
-    }
+    setTypes([...types, { name: 'All', id: 'all' }])
   }, [])
 
   // Get experiences
@@ -157,23 +147,28 @@ const Category: NextPage<CategoryProps, {}> = ({ firebase, user }) => {
     const fetchExperiences = async () => {
       let getExperiences = async () => {
         let experiencesRef;
-
-        if (selectedType != 'all') {
-          experiencesRef = await db.collection('users').doc(user.uid).collection('experiences')
-            .where('id_category', '==', category.id)
-            .where('id_type', '==', selectedType)
-            .get();
-        } else {
-          experiencesRef = await db.collection('users').doc(user.uid).collection('experiences').where('id_category', '==', category.id).get();
+        if (category.id && selectedType) {
+          if (selectedType != 'all') {
+            experiencesRef = await db.collection('users').doc(user.uid).collection('experiences')
+              .where('id_category', '==', category.id)
+              .where('id_type', '==', selectedType)
+              .get();
+          } else {
+            experiencesRef = await db.collection('users').doc(user.uid).collection('experiences').where('id_category', '==', category.id).get();
+          }
         }
-
-        return experiencesRef.docs.map(experience => {
-          return { ...experience.data(), id: experience.id };
-        })
+        
+        if (experiencesRef) {
+          return experiencesRef.docs.map(experience => {
+            return { ...experience.data(), id: experience.id };
+          })
+        }        
       }
 
       let data = await getExperiences();
-      setExperiences([...data]);
+      if (data) {
+        setExperiences([...data]);
+      }
     }
 
     if (category.id) {
@@ -201,7 +196,6 @@ const Category: NextPage<CategoryProps, {}> = ({ firebase, user }) => {
   }, [category])
 
   useEffect(() => {
-    console.log("types", types);
   }, [types])
 
   // Get subject information
@@ -285,7 +279,6 @@ const Category: NextPage<CategoryProps, {}> = ({ firebase, user }) => {
 };
 
 Category.getInitialProps = async () => {
-  console.log("@category getInitialProps");
   return {}
 };
 

@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
-import FirebaseService, { withFirebase, FirebaseContext } from '../services/firebase';
+import FirebaseService, { withFirebase } from '../services/firebase';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import firebase from 'firebase';
 import Router from 'next/router';
 
@@ -29,14 +29,16 @@ const SignInPage: NextPage<SignInPage> = ({firebase}) => {
     var onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (firebase) {
-            firebase.doSignInWithEmailAndPassword(email, password)
-                .then(() => {
+            let promise = firebase.doSignInWithEmailAndPassword(email, password)
+            if (promise) {
+                promise.then(() => {
                     setEmail('');
                     Router.push('/');
                 })
                 .catch((error: any) => {
                     setError(error.message);
                 });
+            }
         }
     };
 

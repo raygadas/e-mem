@@ -4,21 +4,9 @@ import { NextPage } from 'next'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Router, { useRouter } from 'next/router';
 import withAuthorization from "./withAuthorization";
-import FirebaseService from 'services/firebase';
-import dynamic from 'next/dynamic';
 import { formatDate } from '../utils';
 
-const Editor = dynamic(() =>
-    import('@stfy/react-editor.js'),
-    { ssr: false }
-)
-
-type HomePage = {
-    firebase: FirebaseService,
-    user: firebase.User
-}
-
-const Entry: NextPage<> = ({ firebase, user }) => {
+const Entry: NextPage<any> = ({ firebase, user }) => {
     const router = useRouter();
     const { query } = router;
     const [experience, setExperience] = React.useState(Object);
@@ -26,14 +14,8 @@ const Entry: NextPage<> = ({ firebase, user }) => {
     const [subject, setSubject] = React.useState(Object)
     const { db } = firebase;
 
-    experience.emojis ? experience.emojis.map(emoji => {
-        // <div className="bg-gray-200 px-3 py-1 rounded-lg text-blue-700 mr-2">
-        console.log(emoji)
-        // </div>
-    }) : ""
-
     React.useEffect(() => {
-        const fetchExperience = async (experience_id) => {
+        const fetchExperience = async (experience_id: string | string[]) => {
             let experienceRef = await db.collection('users').doc(user.uid).collection('experiences').doc(experience_id).get();
             let data = { ...experienceRef.data(), id: experienceRef.id };
             setExperience({ ...data });
@@ -118,7 +100,7 @@ const Entry: NextPage<> = ({ firebase, user }) => {
                         }
                         </div>
                         <div className="flex flex-wrap"> {
-                            experience.emojis ? experience.emojis.map(emoji => {
+                            experience.emojis ? experience.emojis.map((emoji: string)  => {
                                 return (
                                     <div className="bg-gray-200 px-2 py-1 rounded-lg text-blue-700 mr-2 shadow text-center mb-1">
                                         {emoji}
