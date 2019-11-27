@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.default-bg {
+  background: #12c2e9;
+  background: -webkit-linear-gradient(45deg, #2d6de9, #12c2e9);
+  background: linear-gradient(45deg, #2d6de9, #12c2e9);
+}
